@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Your IQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Take a multi-round visual IQ test with pattern, numeric and logic questions, then get a score out of 20 with personalized feedback."
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Full-page wallpaper + tint -->
+  <div class="wallpaper-overlay">
+    <!-- Top hero: person + title -->
+    <header class="site-header">
+      <div class="hero-avatar">
+        <!-- Optional: place your character/person image here -->
+        <!-- <img src="images/host.png" alt="IQ Test Host" /> -->
+      </div>
+      <div class="hero-text">
+        <h1 class="logo">Test Your IQ</h1>
+        <p class="subtitle">
+          A focused online IQ check with 16 visual questions across multiple rounds. No instant “right/wrong” per item &mdash; just a final score and feedback.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main glass card containing all views -->
+    <main class="app-card">
+
+      <!-- ========== HOME VIEW ========== -->
+      <section id="home-view" class="view active">
+        <div class="home-grid">
+          <div class="home-copy">
+            <h2>Hello, ready to challenge your mind?</h2>
+            <p>
+              This test uses images, patterns, and number puzzles to estimate your cognitive strengths in logical reasoning, pattern recognition, and problem‑solving.
+            </p>
+            <p>
+              You will see 16 questions in several rounds and receive a score out of 20 with personalized recommendations at the end.
+            </p>
+            <button id="start-btn" class="primary-btn">Start Test</button>
+          </div>
+
+          <div class="home-visual">
+            <!-- Decorative mock of the quiz layout on the card -->
+            <div class="home-question-mock">
+              <div class="mock-image"></div>
+              <div class="mock-options">
+                <div class="mock-option"></div>
+                <div class="mock-option"></div>
+                <div class="mock-option"></div>
+                <div class="mock-option"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== QUIZ VIEW ========== -->
+      <section id="quiz-view" class="view">
+        <div class="quiz-header">
+          <h2 id="round-title">Round 1 · Pattern Recognition</h2>
+          <div class="progress-info">
+            <span id="question-counter">Question 1 / 16</span>
+            <span id="score-preview">Score: 0 / 20</span>
+          </div>
+        </div>
+
+        <div class="question-wrapper">
+          <!-- Left: image puzzle -->
+          <div class="question-image-box">
+            <img id="question-image" src="" alt="IQ puzzle" />
+          </div>
+
+          <!-- Right: question text + vertical answers -->
+          <div class="question-side">
+            <p id="question-text" class="question-text"></p>
+            <div id="options-container" class="options-container">
+              <!-- JS injects .option-btn elements here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-controls">
+          <button id="prev-btn" class="ghost-btn" disabled>Previous</button>
+          <button id="next-btn" class="primary-btn" disabled>Next</button>
+        </div>
+      </section>
+
+      <!-- ========== RESULT VIEW ========== -->
+      <section id="result-view" class="view">
+        <div class="result-content">
+          <h2>Your IQ Test Result</h2>
+          <p id="final-score" class="final-score"></p>
+          <p id="feedback-text" class="feedback-text"></p>
+
+          <div class="recommendations">
+            <h3>Recommendations</h3>
+            <ul id="recommendation-list"></ul>
+          </div>
+
+          <div class="result-actions">
+            <button id="retry-btn" class="primary-btn">Retake Test</button>
+            <button id="share-btn" class="ghost-btn">Share Result</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Quiz logic -->
+  <script src="app.js"></script>
+</body>
+</html>
