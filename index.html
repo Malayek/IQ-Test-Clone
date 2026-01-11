@@ -4,25 +4,22 @@
   <meta charset="UTF-8" />
   <title>Test Your IQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
     :root {
       --primary: #4c6fff;
       --primary-dark: #394fcc;
       --accent: #f5c36a;
-      --bg-overlay: rgba(7, 10, 24, 0.9);
-      --card-bg: rgba(15, 18, 40, 0.95);
+      --bg-overlay: rgba(7, 10, 24, 0.92);
+      --card-bg: rgba(15, 18, 40, 0.96);
       --text-main: #f9fbff;
       --text-soft: #c4c8e8;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     body {
       min-height: 100vh;
       color: var(--text-main);
@@ -32,7 +29,6 @@
       background-attachment: fixed;
       position: relative;
     }
-
     body::before {
       content: "";
       position: fixed;
@@ -41,48 +37,119 @@
       z-index: -1;
     }
 
-    .page {
+    /* Global layout */
+    .full-center {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px 12px;
     }
+    .hidden {
+      display: none !important;
+    }
 
+    /* STEP 1: FULLSCREEN LANDING */
+    .landing-hero {
+      text-align: center;
+      max-width: 540px;
+      padding: 30px 26px;
+      border-radius: 28px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.1), transparent 60%), rgba(5, 7, 22, 0.9);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+    }
+    .landing-badge {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+    .landing-title {
+      font-size: clamp(28px, 5vw, 38px);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .landing-sub {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+    .landing-sub span {
+      color: var(--accent);
+    }
+
+    .btn-main, .btn-ghost {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      padding: 11px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .btn-main {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 16px 40px rgba(76, 111, 255, 0.7);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-soft);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    /* STEP 2+3 WRAPPER */
+    .page-shell {
+      min-height: 100vh;
+      padding: 24px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .card {
       width: 100%;
       max-width: 1000px;
       background: var(--card-bg);
       border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7);
       display: grid;
       grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
       gap: 20px;
       padding: 22px;
     }
-
     @media (max-width: 860px) {
       .card {
         grid-template-columns: minmax(0, 1fr);
       }
-      .hero {
+      .hero-side {
         order: -1;
       }
     }
 
-    .hero {
+    .hero-side {
       border-radius: 20px;
       overflow: hidden;
       position: relative;
       min-height: 260px;
-      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 55%), #050716;
+      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.12), transparent 55%), #050716;
       display: flex;
       align-items: flex-end;
       padding: 18px;
     }
-
-    .hero::before {
+    .hero-side::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -91,26 +158,22 @@
       background-position: center;
       opacity: 0.25;
     }
-
     .hero-inner {
       position: relative;
       z-index: 1;
     }
-
     .hero-label {
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--text-soft);
       margin-bottom: 6px;
     }
-
     .hero-title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 6px;
     }
-
     .hero-sub {
       font-size: 13px;
       color: var(--text-soft);
@@ -122,46 +185,39 @@
       flex-direction: column;
       gap: 16px;
     }
-
     .top-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 12px;
     }
-
     .top-row h1 {
-      font-size: 24px;
+      font-size: 22px;
     }
-
     .top-row p {
       font-size: 13px;
       color: var(--text-soft);
     }
-
     .round-pill {
       font-size: 12px;
       color: var(--text-soft);
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(5, 7, 22, 0.95);
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(5,7,22,0.95);
+      text-align: right;
     }
 
-    .view {
-      display: none;
-    }
+    .view { display: none; }
+    .view.active { display: block; }
 
-    .view.active {
-      display: block;
-    }
-
+    /* HOME TEXT clearer */
     .home-text {
       font-size: 14px;
       color: var(--text-soft);
       margin-bottom: 8px;
+      line-height: 1.6;
     }
-
     .home-list {
       list-style: none;
       font-size: 13px;
@@ -170,65 +226,30 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 8px 16px;
     }
-
     @media (max-width: 640px) {
       .home-list {
         grid-template-columns: minmax(0, 1fr);
       }
     }
-
     .home-list li::before {
       content: "• ";
       color: var(--accent);
     }
 
-    .btn-row {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .btn-main,
-    .btn-ghost {
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-
-    .btn-main {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-soft);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
+    /* QUIZ */
     .quiz-header {
       font-size: 13px;
       color: var(--text-soft);
       margin-bottom: 8px;
     }
-
     .progress-bar {
       width: 100%;
       height: 6px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.08);
       overflow: hidden;
       margin-top: 4px;
     }
-
     .progress-fill {
       height: 100%;
       width: 0%;
@@ -236,65 +257,57 @@
       background: linear-gradient(90deg, var(--accent), #4fd1c5);
       transition: width 0.25s ease;
     }
-
     .question-card {
       margin-top: 6px;
       padding: 12px;
       border-radius: 16px;
-      background: rgba(5, 7, 22, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(5,7,22,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
     }
-
     .question-meta {
       font-size: 11px;
       color: var(--text-soft);
       display: flex;
       justify-content: space-between;
     }
-
     .question-text {
       margin-top: 6px;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 600;
     }
-
     .question-image {
       margin-top: 8px;
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255,255,255,0.12);
     }
-
     .question-image img {
       display: block;
       width: 100%;
       height: auto;
     }
-
     .answers {
       margin-top: 8px;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
-
     .answer-option {
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255,255,255,0.2);
       padding: 8px 12px;
-      background: rgba(10, 13, 32, 0.9);
+      background: rgba(10,13,32,0.9);
       display: flex;
       align-items: center;
       gap: 10px;
       font-size: 14px;
       cursor: pointer;
     }
-
     .answer-option span.label {
       width: 24px;
       height: 24px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255,255,255,0.3);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -302,18 +315,15 @@
       color: var(--text-soft);
       flex-shrink: 0;
     }
-
     .answer-option.selected {
       border-color: var(--primary);
-      background: rgba(76, 111, 255, 0.15);
+      background: rgba(76, 111, 255, 0.18);
     }
-
     .answer-option.selected span.label {
-      background: rgba(76, 111, 255, 0.3);
+      background: rgba(76,111,255,0.3);
       color: #fff;
-      border-color: rgba(76, 111, 255, 0.8);
+      border-color: rgba(76,111,255,0.85);
     }
-
     .quiz-footer {
       margin-top: 10px;
       font-size: 12px;
@@ -324,34 +334,32 @@
       gap: 8px;
     }
 
+    /* RESULT */
     .result-main {
       margin-top: 6px;
       padding: 12px;
       border-radius: 16px;
-      background: rgba(5, 7, 22, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(5,7,22,0.9);
+      border: 1px solid rgba(255,255,255,0.18);
       display: grid;
       grid-template-columns: 1.1fr 1.9fr;
       gap: 12px;
     }
-
     @media (max-width: 640px) {
       .result-main {
         grid-template-columns: minmax(0, 1fr);
       }
     }
-
     .score-circle {
       width: 110px;
       height: 110px;
       border-radius: 999px;
-      background: conic-gradient(from 180deg, #4fd1c5 0deg, #ffdf8b 140deg, rgba(255, 255, 255, 0.1) 140deg);
+      background: conic-gradient(from 180deg, #4fd1c5 0deg, #ffdf8b 140deg, rgba(255,255,255,0.1) 140deg);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto;
     }
-
     .score-inner {
       width: 84px;
       height: 84px;
@@ -363,35 +371,30 @@
       justify-content: center;
       font-size: 13px;
     }
-
     .score-inner span.value {
       font-size: 26px;
       font-weight: 700;
     }
-
     .result-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-top: 6px;
     }
-
     .tag-chip {
       padding: 4px 9px;
       border-radius: 999px;
       font-size: 11px;
-      background: rgba(10, 13, 32, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(10,13,32,0.95);
+      border: 1px solid rgba(255,255,255,0.18);
       color: var(--text-soft);
     }
-
     .result-actions {
       margin-top: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-
     .subtle {
       margin-top: 4px;
       font-size: 11px;
@@ -400,47 +403,64 @@
   </style>
 </head>
 <body>
-  <div class="page">
+
+  <!-- STEP 1: FULL PAGE LANDING -->
+  <section id="landingScreen" class="full-center">
+    <div class="landing-hero">
+      <div class="landing-badge">LUXURY IQ ROOM</div>
+      <h1 class="landing-title">Full screen. Quiet mind. Test your IQ.</h1>
+      <p class="landing-sub">
+        A short visual and riddle‑style IQ session in three rounds.  
+        Press <span>Test Your IQ</span> to enter the main room.
+      </p>
+      <div class="btn-row">
+        <button class="btn-main" id="goToHome">Test Your IQ →</button>
+        <button class="btn-ghost" type="button">About this test</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2 + 3: MAIN HOME + QUIZ + RESULT (same theme as before) -->
+  <section id="appScreen" class="page-shell hidden">
     <div class="card">
-      <!-- Wallpaper + person side -->
-      <aside class="hero">
+      <aside class="hero-side">
         <div class="hero-inner">
-          <div class="hero-label">CALM IQ ROOM</div>
-          <div class="hero-title">Test your IQ in a luxury‑style space.</div>
+          <div class="hero-label">CALM IQ SPACE</div>
+          <div class="hero-title">Think in patterns, not in pressure.</div>
           <p class="hero-sub">
-            15 image‑based questions in 3 rounds. No going back. You see your score out of 20 at the end, with a short cognitive profile.
+            Image‑based questions, gentle riddles, and a clear score out of 20 to reflect how your mind connects information.
           </p>
         </div>
       </aside>
 
-      <!-- Main app -->
       <main class="content">
         <div class="top-row">
           <div>
             <h1>Test Your IQ</h1>
-            <p>Visual patterns, numbers, and abstract shapes in one smooth forward‑only flow.</p>
+            <p>Start from this **home** panel, then move into 15 forward‑only questions and a results view.</p>
           </div>
-          <div class="round-pill" id="roundLabel">Ready · 0 / 15</div>
+          <div class="round-pill" id="roundLabel">Home · tap Start when ready</div>
         </div>
 
-        <!-- HOME -->
+        <!-- HOME PAGE (STEP 2) -->
         <section id="homeView" class="view active">
           <p class="home-text">
-            This short IQ session focuses on three areas: visual patterns, number logic, and abstract / spatial reasoning. You move forward only; answers are locked when you go to the next question.
+            Welcome to your mini IQ session. This test mixes visual patterns, number puzzles and short riddles.  
+            You move only forward: once you go to the next question, your answer is locked.
           </p>
           <ul class="home-list">
-            <li>Beautiful wallpaper background with a calm, focused mood.</li>
-            <li>15 questions across three rounds (5 + 5 + 5).</li>
-            <li>Answers in a vertical column under each image.</li>
-            <li>Final score out of 20 and feedback at the end.</li>
+            <li>Beautiful full-page wallpaper and a focused, quiet interface.</li>
+            <li>15 questions in a single flow – no back button, no breaking the focus.</li>
+            <li>Multiple‑choice answers under each image or riddle, in a vertical column.</li>
+            <li>End screen shows your score out of 20, plus clear written feedback.</li>
           </ul>
           <div class="btn-row">
-            <button class="btn-main" id="startBtn">Start Test →</button>
-            <button class="btn-ghost" type="button">View how it works</button>
+            <button class="btn-main" id="startBtn">Start the questions →</button>
+            <button class="btn-ghost" type="button">Scoring details</button>
           </div>
         </section>
 
-        <!-- QUIZ -->
+        <!-- QUIZ (STEP 3) -->
         <section id="quizView" class="view">
           <div class="quiz-header">
             Question <span id="questionNumber">1</span> of <span id="totalQuestions">15</span>
@@ -454,9 +474,7 @@
               <span id="questionCategory">Category</span>
               <span id="questionDifficulty">Difficulty · ★★☆☆☆</span>
             </div>
-            <div class="question-text" id="questionText">
-              Loading...
-            </div>
+            <div class="question-text" id="questionText">Loading...</div>
             <div class="question-image">
               <img id="questionImage" src="" alt="IQ question" />
             </div>
@@ -466,7 +484,6 @@
           <div class="quiz-footer">
             <div><span id="answeredCount">0</span> / <span id="totalQuestionsFooter">15</span> answered</div>
             <div class="btn-row">
-              <!-- forward only -->
               <button class="btn-main" id="nextBtn">Next →</button>
             </div>
           </div>
@@ -489,63 +506,33 @@
             <div>
               <h2 id="resultTitle">Your IQ snapshot</h2>
               <p id="resultSummary">
-                Your personalized feedback on pattern recognition, number logic, and abstract reasoning will appear here.
+                Your personalized feedback on pattern recognition, number logic and riddles will appear here.
               </p>
               <div class="result-tags" id="resultTags"></div>
               <div class="result-actions">
                 <button class="btn-main" id="retryBtn">Retake Test ↺</button>
-                <button class="btn-ghost" type="button">Share (mock)</button>
+                <button class="btn-ghost" type="button">Share result (mock)</button>
               </div>
               <p class="subtle">
-                This is a learning tool, not a clinical IQ assessment. Use it for curiosity and practice only.
+                This is a learning tool, not a medically standardized IQ test.
               </p>
             </div>
           </div>
         </section>
       </main>
     </div>
-  </div>
+  </section>
 
   <script>
-    // 15 questions, 3 rounds, image placeholders
+    // IQ QUESTIONS (15): visual + riddles style
     const questions = [
-      // Round 1
-      {
-        round: 1,
-        category: "Visual pattern",
-        difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+1",
-        text: "Which option completes the missing piece in the pattern matrix?",
-        options: ["Solid square", "Diagonal split square", "Empty circle", "Striped square"],
-        correctIndex: 1,
-        weight: 1
-      },
-      {
-        round: 1,
-        category: "Visual pattern",
-        difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+2",
-        text: "Select the image that logically follows the sequence of shapes.",
-        options: ["Triangle rotates", "Square rotates", "Circle rotates", "Diamond rotates"],
-        correctIndex: 0,
-        weight: 1
-      },
-      {
-        round: 1,
-        category: "Visual pattern",
-        difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+3",
-        text: "Dots are added each step. Which image comes next in the sequence?",
-        options: ["6 dots line", "6 dots circle", "8 dots line", "8 dots circle"],
-        correctIndex: 3,
-        weight: 1
-      },
+      // Round 1 – visual patterns
       {
         round: 1,
         category: "Visual pattern",
         difficulty: 1,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+4",
-        text: "Filled and empty squares alternate. Which should appear next?",
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Checker+Pattern",
+        text: "Every second square is filled in a checkerboard. Which tile continues the pattern?",
         options: ["Filled square", "Empty square", "Striped square", "Circle"],
         correctIndex: 0,
         weight: 1
@@ -553,114 +540,144 @@
       {
         round: 1,
         category: "Visual pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Rotating+Arrow",
+        text: "The arrow rotates 90° each step. Which orientation comes next?",
+        options: ["Pointing up", "Pointing right", "Pointing down", "Pointing left"],
+        correctIndex: 3,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Dot+Increase",
+        text: "Dots increase by 2 each frame. The last frame shows 6 dots. What should the next frame have?",
+        options: ["6 dots", "7 dots", "8 dots", "10 dots"],
+        correctIndex: 2,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
         difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+5",
-        text: "Which image is the correct mirror image of the given shape?",
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Mirror",
+        text: "A shape is mirrored across a vertical line. Which option shows the correct mirror image?",
         options: ["Left-right mirror", "Top-bottom mirror", "Rotate 90°", "Rotate 180°"],
         correctIndex: 0,
         weight: 1
       },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Missing+Piece",
+        text: "One piece is missing from a circle of shapes. Which piece completes the ring?",
+        options: ["Plain segment", "Striped segment", "Segment with one dot", "Segment with three dots"],
+        correctIndex: 1,
+        weight: 1
+      },
 
-      // Round 2
+      // Round 2 – numbers / logic & riddles
       {
         round: 2,
         category: "Number pattern",
         difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Numbers+1",
-        text: "Find the next number in the sequence shown in the tiles.",
-        options: ["24", "28", "32", "36"],
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Sequence+1",
+        text: "Sequence: 4, 8, 12, 16, ?. What comes next?",
+        options: ["18", "20", "22", "24"],
         correctIndex: 1,
-        weight: 1
-      },
-      {
-        round: 2,
-        category: "Number pattern",
-        difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Numbers+2",
-        text: "Each number is the sum of the two previous ones. Which tile comes next?",
-        options: ["21", "34", "55", "89"],
-        correctIndex: 1,
-        weight: 1
-      },
-      {
-        round: 2,
-        category: "Number logic",
-        difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Numbers+3",
-        text: "A grid of numbers follows a hidden rule. What belongs in the empty cell?",
-        options: ["12", "14", "16", "18"],
-        correctIndex: 1,
-        weight: 1
-      },
-      {
-        round: 2,
-        category: "Speed counting",
-        difficulty: 1,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Numbers+4",
-        text: "Estimate the number of dots shown.",
-        options: ["16", "20", "24", "28"],
-        correctIndex: 2,
         weight: 1
       },
       {
         round: 2,
         category: "Number pattern",
         difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Numbers+5",
-        text: "The sequence alternates between two rules. Which option fits next?",
-        options: ["27", "30", "33", "36"],
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Sequence+2",
+        text: "Sequence: 3, 6, 12, 24, ?. What comes next?",
+        options: ["30", "36", "42", "48"],
         correctIndex: 3,
         weight: 1
       },
+      {
+        round: 2,
+        category: "Riddle",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Riddle+%E2%80%A2+Clock",
+        text: "Riddle: I have hands but cannot clap. What am I?",
+        options: ["Robot", "Clock", "Chair", "Door"],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Riddle",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Riddle+%E2%80%A2+Shadow",
+        text: "Riddle: You see me in the light, but not in the dark. I copy your moves exactly. What am I?",
+        options: ["Mirror", "Shadow", "Reflection in water", "Photograph"],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Logic puzzle",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Logic+Grid",
+        text: "Three houses are in a row. The red house is not first. The blue house is not last. Which house is in the middle?",
+        options: ["Red", "Blue", "Green", "None"],
+        correctIndex: 1,
+        weight: 1
+      },
 
-      // Round 3
+      // Round 3 – abstract / spatial & riddles
       {
         round: 3,
         category: "Abstract shapes",
         difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Abstract+1",
-        text: "The shape rotates by a fixed angle each step. Which orientation comes next?",
-        options: ["45°", "90°", "135°", "180°"],
-        correctIndex: 1,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Rotate",
+        text: "A shape rotates 45° each frame. The last frame shows it at 135°. Where should it point next?",
+        options: ["180°", "225°", "270°", "315°"],
+        correctIndex: 0,
         weight: 1
       },
       {
         round: 3,
         category: "Spatial reasoning",
         difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Abstract+2",
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Cube+Net",
         text: "Which cube can be formed by folding the net shown?",
-        options: ["Opposite colors", "Adjacent colors", "Three colors meet", "No colors touching"],
+        options: ["Opposite colors meet", "Adjacent colors meet", "Three colors meet at a corner", "Colors do not touch"],
         correctIndex: 2,
         weight: 1
       },
       {
         round: 3,
-        category: "Abstract logic",
+        category: "Riddle",
         difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Abstract+3",
-        text: "The rule changes halfway through the sequence. Which option matches the new rule?",
-        options: ["Two stripes", "Three stripes", "Solid", "Outline"],
-        correctIndex: 1,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Riddle+%E2%80%A2+Future",
+        text: "Riddle: What comes once in a minute, twice in a moment, but never in a thousand years?",
+        options: ["The letter M", "The sun", "A second", "A day"],
+        correctIndex: 0,
         weight: 1
       },
       {
         round: 3,
-        category: "Spatial reasoning",
+        category: "Riddle",
         difficulty: 2,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Abstract+4",
-        text: "Blocks are reflected across a line. Which arrangement is the correct mirror image?",
-        options: ["Left-right mirror", "Top-bottom mirror", "Rotate 90°", "Rotate 270°"],
-        correctIndex: 0,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Riddle+%E2%80%A2+Breath",
+        text: "Riddle: What is so light that even a feather is heavy for it?",
+        options: ["Air", "Breath", "Sound", "Shadow"],
+        correctIndex: 1,
         weight: 1
       },
       {
         round: 3,
         category: "Abstract completion",
         difficulty: 3,
-        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Abstract+5",
-        text: "One piece is missing from the ring. Which segment completes the pattern?",
-        options: ["Two dots", "Three dots", "Plain", "Striped"],
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Ring",
+        text: "A patterned ring is missing one segment. Which option completes the ring?",
+        options: ["Plain segment", "Segment with one dot", "Segment with two dots", "Striped segment"],
         correctIndex: 3,
         weight: 1
       }
@@ -670,15 +687,22 @@
     let currentIndex = 0;
     let selectedAnswers = new Array(questions.length).fill(null);
 
-    // Elements
+    // Screens
+    const landingScreen = document.getElementById("landingScreen");
+    const appScreen = document.getElementById("appScreen");
+
+    // Views
     const homeView = document.getElementById("homeView");
     const quizView = document.getElementById("quizView");
     const resultView = document.getElementById("resultView");
 
+    // Buttons
+    const goToHomeBtn = document.getElementById("goToHome");
     const startBtn = document.getElementById("startBtn");
     const nextBtn = document.getElementById("nextBtn");
     const retryBtn = document.getElementById("retryBtn");
 
+    // Quiz elements
     const questionNumber = document.getElementById("questionNumber");
     const totalQuestions = document.getElementById("totalQuestions");
     const totalQuestionsFooter = document.getElementById("totalQuestionsFooter");
@@ -691,6 +715,7 @@
     const progressFill = document.getElementById("progressFill");
     const roundLabel = document.getElementById("roundLabel");
 
+    // Result elements
     const finalScoreEl = document.getElementById("finalScore");
     const scoreLabel = document.getElementById("scoreLabel");
     const resultTitle = document.getElementById("resultTitle");
@@ -725,7 +750,7 @@
       questionDifficulty.textContent = difficultyStars(q.difficulty);
       questionText.textContent = q.text;
       questionImage.src = q.image;
-      questionImage.alt = "Question " + (currentIndex + 1);
+      questionImage.alt = "IQ question " + (currentIndex + 1);
 
       answersContainer.innerHTML = "";
       q.options.forEach((opt, idx) => {
@@ -800,29 +825,28 @@
 
     function buildFeedback({ raw, max, normalized }) {
       finalScoreEl.textContent = normalized.toString();
-
       const ratio = raw / max;
       let label, title, summary, tags = [];
 
       if (ratio >= 0.85) {
         label = "Very strong pattern awareness";
         title = "High visual‑logical efficiency";
-        summary = "Your answers show fast understanding of patterns and rules. You likely handle complex visual and numeric information comfortably under gentle pressure.";
+        summary = "You quickly connect patterns, numbers and riddles. Harder puzzles still leave you with clear structure in mind.";
         tags = ["Strong pattern extraction", "Efficient reasoning", "Good working memory"];
       } else if (ratio >= 0.65) {
         label = "Solid reasoning with growth space";
         title = "Above‑average cognitive flow";
-        summary = "You handle most patterns reliably with some room to sharpen speed and depth on harder items. More exposure to complex puzzles can push your score higher.";
+        summary = "You handle most puzzles well with some room on complexity and speed. More practice can lift this score further.";
         tags = ["Reliable logic skills", "Good pattern sense", "Can train speed & depth"];
       } else if (ratio >= 0.4) {
         label = "Developing reasoning skill";
         title = "Emerging pattern recognition";
-        summary = "You show basic pattern‑spotting skill, especially on simpler questions. Regular practice with visual and numeric puzzles will build confidence and consistency.";
+        summary = "You are building a base in visual and verbal reasoning. Short, daily puzzles can steadily sharpen your IQ performance.";
         tags = ["Foundational logic present", "Practice boosts stability", "Short daily puzzles help"];
       } else {
         label = "Gentle starting point";
         title = "Beginner‑level IQ snapshot";
-        summary = "Treat this run as a baseline warm‑up. With repeated exposure to shapes, sequences and spatial puzzles, your performance can improve quickly.";
+        summary = "Treat this run as a calm starting line. Repeating tests and exploring more puzzles will move this score upward.";
         tags = ["Good baseline run", "Lots of upside", "Repetition will help"];
       }
 
@@ -838,6 +862,13 @@
         resultTags.appendChild(chip);
       });
     }
+
+    // FLOW:
+    goToHomeBtn.addEventListener("click", () => {
+      landingScreen.classList.add("hidden");
+      appScreen.classList.remove("hidden");
+      roundLabel.textContent = "Home · tap Start when ready";
+    });
 
     startBtn.addEventListener("click", () => {
       currentIndex = 0;
@@ -866,9 +897,8 @@
       selectedAnswers = new Array(questions.length).fill(null);
       progressFill.style.width = "0%";
       answeredCount.textContent = "0";
-      roundLabel.textContent = "Ready · 0 / 15";
-      setView(quizView);
-      renderQuestion();
+      roundLabel.textContent = "Home · tap Start when ready";
+      setView(homeView);
     });
   </script>
 </body>
