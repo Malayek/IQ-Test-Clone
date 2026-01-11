@@ -4,115 +4,1204 @@
   <meta charset="UTF-8" />
   <title>Test Your IQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Take a multi-round visual IQ test with pattern, numeric and logic questions, then get a score out of 20 with personalized feedback."
-  />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --primary: #4c6fff;
+      --primary-dark: #394fcc;
+      --accent: #f5c36a;
+      --bg-overlay: rgba(7, 10, 24, 0.84);
+      --card-bg: rgba(15, 18, 40, 0.92);
+      --text-main: #f9fbff;
+      --text-soft: #c4c8e8;
+      --danger: #ff6b81;
+      --success: #4fd1c5;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text-main);
+      /* Replace this URL with a beautiful, luxurious hero image */
+      background-image: url("https://images.pexels.com/photos/1519088/pexels-photo-1519088.jpeg?auto=compress&cs=tinysrgb&w=1600");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, var(--bg-overlay) 0%, rgba(7, 10, 24, 0.9) 35%, rgba(7, 10, 24, 0.85) 100%);
+      z-index: -1;
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .glass-card {
+      width: 100%;
+      max-width: 1024px;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 60%), var(--card-bg);
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      padding: 28px 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+      gap: 24px;
+      color: var(--text-main);
+    }
+
+    @media (max-width: 860px) {
+      .glass-card {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 22px 18px;
+      }
+      .hero-visual {
+        order: -1;
+      }
+    }
+
+    .hero-visual {
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      min-height: 260px;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.1), transparent 55%), rgba(9, 12, 32, 0.95);
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.pexels.com/photos/1181243/pexels-photo-1181243.jpeg?auto=compress&cs=tinysrgb&w=1200");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.26;
+      mix-blend-mode: screen;
+    }
+
+    .hero-overlay {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(7, 10, 24, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(245, 195, 106, 0.9);
+    }
+
+    .hero-title {
+      font-size: clamp(24px, 3.1vw, 32px);
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 380px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta span::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .title-block h1 {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .title-block p {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .round-indicator {
+      font-size: 12px;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    .round-indicator .round-pill {
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(7, 10, 24, 0.9);
+      font-size: 11px;
+    }
+
+    .round-color-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff8ba7, #ffdf8b);
+    }
+
+    .view {
+      display: none;
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .home-copy {
+      font-size: 14px;
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .home-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 8px 14px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    @media (max-width: 640px) {
+      .home-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .home-list li::before {
+      content: "•";
+      margin-right: 6px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .primary-btn,
+    .ghost-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 11px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      box-shadow: 0 16px 35px rgba(76, 111, 255, 0.45);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 40px rgba(76, 111, 255, 0.6);
+    }
+
+    .ghost-btn {
+      background: transparent;
+      color: var(--text-soft);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+    }
+
+    .ghost-btn:hover {
+      background: rgba(7, 10, 24, 0.9);
+      color: #ffffff;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .quiz-progress {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      margin: 6px 0 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), #4fd1c5);
+      transition: width 0.25s ease-out;
+    }
+
+    .question-card {
+      margin-top: 6px;
+      padding: 12px 12px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(7, 10, 24, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .question-image {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 6px;
+    }
+
+    .question-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .answers {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .answer-option {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 9px 14px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 18, 40, 0.96);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .answer-option span.label {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      color: var(--text-soft);
+      flex-shrink: 0;
+    }
+
+    .answer-option span.text {
+      flex: 1;
+    }
+
+    .answer-option.selected {
+      background: linear-gradient(135deg, rgba(76, 111, 255, 0.2), rgba(79, 209, 197, 0.15));
+      border-color: rgba(76, 111, 255, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .answer-option.selected span.label {
+      background: rgba(76, 111, 255, 0.2);
+      border-color: rgba(76, 111, 255, 0.85);
+      color: #ffffff;
+    }
+
+    .lock-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lock-note svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+    .quiz-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .round-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(7, 10, 24, 0.92);
+      font-size: 11px;
+    }
+
+    .round-tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ff8ba7;
+    }
+
+    .result-main {
+      margin-top: 6px;
+      padding: 12px 12px 14px;
+      border-radius: var(--radius-md);
+      background: rgba(7, 10, 24, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .result-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      margin: auto;
+      background: conic-gradient(from 180deg, #4fd1c5 0deg, #ffdf8b 140deg, rgba(255, 255, 255, 0.08) 140deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .score-circle-inner {
+      width: 84px;
+      height: 84px;
+      border-radius: inherit;
+      background: #050716;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .score-circle-inner span.value {
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .score-caption {
+      margin-top: 6px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .result-text h2 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .result-text p {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .result-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .result-chip {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 18, 40, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--text-soft);
+    }
+
+    .result-actions {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .subtle {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Full-page wallpaper + tint -->
-  <div class="wallpaper-overlay">
-    <!-- Top hero: person + title -->
-    <header class="site-header">
-      <div class="hero-avatar">
-        <!-- Optional: place your character/person image here -->
-        <!-- <img src="images/host.png" alt="IQ Test Host" /> -->
-      </div>
-      <div class="hero-text">
-        <h1 class="logo">Test Your IQ</h1>
-        <p class="subtitle">
-          A focused online IQ check with 16 visual questions across multiple rounds. No instant “right/wrong” per item &mdash; just a final score and feedback.
-        </p>
-      </div>
-    </header>
-
-    <!-- Main glass card containing all views -->
-    <main class="app-card">
-
-      <!-- ========== HOME VIEW ========== -->
-      <section id="home-view" class="view active">
-        <div class="home-grid">
-          <div class="home-copy">
-            <h2>Hello, ready to challenge your mind?</h2>
-            <p>
-              This test uses images, patterns, and number puzzles to estimate your cognitive strengths in logical reasoning, pattern recognition, and problem‑solving.
-            </p>
-            <p>
-              You will see 16 questions in several rounds and receive a score out of 20 with personalized recommendations at the end.
-            </p>
-            <button id="start-btn" class="primary-btn">Start Test</button>
+  <div class="page-wrapper">
+    <div class="glass-card">
+      <!-- Right: Hero wallpaper + person image -->
+      <aside class="hero-visual">
+        <div class="hero-overlay">
+          <div class="badge-row">
+            <span class="pill">
+              <span class="pill-dot"></span>
+              Cognitive Lab
+            </span>
+            <span>Adaptive pattern rounds</span>
           </div>
+          <h2 class="hero-title">A calm, **luxury** space to measure your IQ.</h2>
+          <p class="hero-sub">
+            Answer visual puzzles and pattern questions in one flow, then see your score out of 20 with focused feedback on how your mind works.
+          </p>
+          <div class="hero-meta">
+            <span>15 curated questions</span>
+            <span>3 progressive rounds</span>
+            <span>No going back, just forward</span>
+          </div>
+        </div>
+      </aside>
 
-          <div class="home-visual">
-            <!-- Decorative mock of the quiz layout on the card -->
-            <div class="home-question-mock">
-              <div class="mock-image"></div>
-              <div class="mock-options">
-                <div class="mock-option"></div>
-                <div class="mock-option"></div>
-                <div class="mock-option"></div>
-                <div class="mock-option"></div>
+      <!-- Left: App content (home / quiz / result) -->
+      <main class="content-area">
+        <div class="top-row">
+          <div class="title-block">
+            <h1>Test Your IQ</h1>
+            <p>Take a short, image‑based IQ session and receive a personalized score and insight at the end.</p>
+          </div>
+          <div class="round-indicator">
+            <div>Instant scoring</div>
+            <div class="round-pill">
+              <span class="round-color-dot"></span>
+              <span id="roundLabel">Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Homepage View -->
+        <section id="homeView" class="view active">
+          <p class="home-copy">
+            This mini IQ lab focuses on logical patterns, visual sequences and quick problem‑solving under gentle pressure. Questions appear one by one and your answers are locked as you move forward.
+          </p>
+          <ul class="home-list">
+            <li>Image‑based puzzles to keep the experience visual and intuitive.</li>
+            <li>Three rounds: visual logic, number patterns and abstract shapes.</li>
+            <li>Single forward flow: once you move on, answers cannot be changed.</li>
+            <li>Final result out of 20 with a short cognitive profile and tips.</li>
+          </ul>
+          <div class="btn-row">
+            <button class="primary-btn" id="startBtn">
+              Start Test
+              <span>→</span>
+            </button>
+            <button class="ghost-btn" type="button">
+              How scoring works
+            </button>
+          </div>
+        </section>
+
+        <!-- Quiz View -->
+        <section id="quizView" class="view">
+          <header class="quiz-header">
+            <div>
+              <div class="quiz-progress">
+                Question <span id="questionNumber">1</span> of <span id="totalQuestions">15</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+            <div class="round-tag">
+              <span class="round-tag-dot"></span>
+              <span id="roundTag">Round 1 · Visual Logic</span>
+            </div>
+          </header>
 
-      <!-- ========== QUIZ VIEW ========== -->
-      <section id="quiz-view" class="view">
-        <div class="quiz-header">
-          <h2 id="round-title">Round 1 · Pattern Recognition</h2>
-          <div class="progress-info">
-            <span id="question-counter">Question 1 / 16</span>
-            <span id="score-preview">Score: 0 / 20</span>
-          </div>
-        </div>
+          <article class="question-card">
+            <div class="question-meta">
+              <span id="questionCategory">Visual pattern</span>
+              <span id="questionDifficulty">Difficulty · ★★☆☆☆</span>
+            </div>
+            <div class="question-text" id="questionText">
+              Loading question...
+            </div>
 
-        <div class="question-wrapper">
-          <!-- Left: image puzzle -->
-          <div class="question-image-box">
-            <img id="question-image" src="" alt="IQ puzzle" />
-          </div>
+            <div class="question-image">
+              <!-- Replace these with your own puzzle/shape images -->
+              <img id="questionImage" src="" alt="IQ test question" />
+            </div>
 
-          <!-- Right: question text + vertical answers -->
-          <div class="question-side">
-            <p id="question-text" class="question-text"></p>
-            <div id="options-container" class="options-container">
-              <!-- JS injects .option-btn elements here -->
+            <div class="answers" id="answersContainer">
+              <!-- Options injected by JS -->
+            </div>
+
+            <div class="lock-note">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#c4c8e8" stroke-width="1.5" stroke-linecap="round" />
+                <rect x="5.5" y="10" width="13" height="9" rx="2" stroke="#c4c8e8" stroke-width="1.5" />
+                <path d="M12 13.5v2.5" stroke="#c4c8e8" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              Once you go forward, you cannot come back to this question.
+            </div>
+          </article>
+
+          <footer class="quiz-footer">
+            <div>
+              <span id="answeredCount">0</span> / <span id="totalQuestionsFooter">15</span> answered
+            </div>
+            <div class="btn-row">
+              <!-- No back button on purpose -->
+              <button class="primary-btn" id="nextBtn">
+                Next
+                <span>→</span>
+              </button>
+            </div>
+          </footer>
+        </section>
+
+        <!-- Result View -->
+        <section id="resultView" class="view">
+          <div class="result-main">
+            <div>
+              <div class="score-circle">
+                <div class="score-circle-inner">
+                  <span class="value" id="finalScore">0</span>
+                  <span>/ 20</span>
+                </div>
+              </div>
+              <div class="score-caption" id="scoreLabel">
+                Calculating profile...
+              </div>
+            </div>
+            <div class="result-text">
+              <h2 id="resultTitle">Your IQ snapshot</h2>
+              <p id="resultSummary">
+                You have completed all 15 questions. Your cognitive summary, including strengths and improvement areas, will appear here.
+              </p>
+              <div class="result-tags" id="resultTags">
+                <!-- tags injected dynamically -->
+              </div>
+              <div class="result-actions">
+                <button class="primary-btn" id="retryBtn">
+                  Retake Test
+                  <span>↺</span>
+                </button>
+                <button class="ghost-btn" type="button">
+                  Share result (mock)
+                </button>
+              </div>
+              <p class="subtle">
+                This experience is for learning and self‑reflection only and is not a clinical or professionally standardized IQ assessment.
+              </p>
             </div>
           </div>
-        </div>
-
-        <div class="quiz-controls">
-          <button id="prev-btn" class="ghost-btn" disabled>Previous</button>
-          <button id="next-btn" class="primary-btn" disabled>Next</button>
-        </div>
-      </section>
-
-      <!-- ========== RESULT VIEW ========== -->
-      <section id="result-view" class="view">
-        <div class="result-content">
-          <h2>Your IQ Test Result</h2>
-          <p id="final-score" class="final-score"></p>
-          <p id="feedback-text" class="feedback-text"></p>
-
-          <div class="recommendations">
-            <h3>Recommendations</h3>
-            <ul id="recommendation-list"></ul>
-          </div>
-
-          <div class="result-actions">
-            <button id="retry-btn" class="primary-btn">Retake Test</button>
-            <button id="share-btn" class="ghost-btn">Share Result</button>
-          </div>
-        </div>
-      </section>
-
-    </main>
+        </section>
+      </main>
+    </div>
   </div>
 
-  <!-- Quiz logic -->
-  <script src="app.js"></script>
+  <script>
+    // --- Question data (15 questions, 3 rounds) ---
+    // Each question: image, text, options, correctIndex, weight
+    const questions = [
+      // Round 1: Visual Logic
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+Matrix+1",
+        text: "Which option completes the pattern in the final cell?",
+        options: [
+          "Top-left triangle missing",
+          "Full square shaded",
+          "Diagonal split square",
+          "Empty circle"
+        ],
+        correctIndex: 2,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Pattern+Matrix+2",
+        text: "Select the image that logically follows the sequence.",
+        options: [
+          "Arrow rotating clockwise",
+          "Arrow rotating counter‑clockwise",
+          "Arrow mirrored horizontally",
+          "Arrow mirrored vertically"
+        ],
+        correctIndex: 0,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Shape+Count",
+        text: "The number of dots increases by a fixed rule. Which image comes next?",
+        options: [
+          "6 dots in a line",
+          "6 dots in a circle",
+          "8 dots in a line",
+          "8 dots in a circle"
+        ],
+        correctIndex: 3,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 1,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Alternate+Fill",
+        text: "Squares alternate between filled and empty. Which square should appear next?",
+        options: [
+          "Filled square",
+          "Empty square",
+          "Striped square",
+          "Shaded circle"
+        ],
+        correctIndex: 0,
+        weight: 1
+      },
+      {
+        round: 1,
+        category: "Visual pattern",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+1+%E2%80%A2+Mirror+Symmetry",
+        text: "Which image is the correct mirror image of the shape shown?",
+        options: [
+          "Mirrored left‑right",
+          "Mirrored top‑bottom",
+          "Rotated 90°",
+          "Rotated 180°"
+        ],
+        correctIndex: 0,
+        weight: 1
+      },
+
+      // Round 2: Number & Logic
+      {
+        round: 2,
+        category: "Number pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Number+Sequence+1",
+        text: "Find the next number in the sequence shown in the tiles.",
+        options: [
+          "24",
+          "28",
+          "32",
+          "36"
+        ],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Number pattern",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Number+Sequence+2",
+        text: "Each number is the sum of the two previous ones. Which tile comes next?",
+        options: [
+          "21",
+          "24",
+          "34",
+          "55"
+        ],
+        correctIndex: 2,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Number logic",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Grid+Sum",
+        text: "One corner value is missing from the grid. What number belongs in the empty cell?",
+        options: [
+          "12",
+          "14",
+          "16",
+          "18"
+        ],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Speed counting",
+        difficulty: 1,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Dot+Count",
+        text: "Quickly estimate: how many dots are shown?",
+        options: [
+          "16",
+          "20",
+          "24",
+          "28"
+        ],
+        correctIndex: 2,
+        weight: 1
+      },
+      {
+        round: 2,
+        category: "Number pattern",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+2+%E2%80%A2+Alternating+Rule",
+        text: "The sequence alternates between two different rules. Which option fits next?",
+        options: [
+          "27",
+          "30",
+          "33",
+          "36"
+        ],
+        correctIndex: 3,
+        weight: 1
+      },
+
+      // Round 3: Abstract & Spatial
+      {
+        round: 3,
+        category: "Abstract shapes",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Rotation",
+        text: "The shape rotates by a fixed angle each step. Which orientation comes next?",
+        options: [
+          "Rotated 45°",
+          "Rotated 90°",
+          "Rotated 135°",
+          "Rotated 180°"
+        ],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 3,
+        category: "Spatial reasoning",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Folded+Cube",
+        text: "Which cube can be formed by folding the net shown?",
+        options: [
+          "Cube with opposite blue faces",
+          "Cube with adjacent blue faces",
+          "Cube with three blue faces meeting at a corner",
+          "Cube with no blue faces touching"
+        ],
+        correctIndex: 2,
+        weight: 1
+      },
+      {
+        round: 3,
+        category: "Abstract logic",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Rule+Change",
+        text: "The rule changes halfway through the sequence. Which option fits the new rule?",
+        options: [
+          "Shape with two stripes",
+          "Shape with three stripes",
+          "Solid shape",
+          "Outline only"
+        ],
+        correctIndex: 1,
+        weight: 1
+      },
+      {
+        round: 3,
+        category: "Spatial reasoning",
+        difficulty: 2,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Mirror+Blocks",
+        text: "Blocks are reflected across a line. Which arrangement is the correct mirror image?",
+        options: [
+          "Blocks mirrored left-right",
+          "Blocks mirrored top-bottom",
+          "Blocks rotated 90°",
+          "Blocks rotated 270°"
+        ],
+        correctIndex: 0,
+        weight: 1
+      },
+      {
+        round: 3,
+        category: "Abstract completion",
+        difficulty: 3,
+        image: "https://via.placeholder.com/800x360/141729/FFFFFF?text=Round+3+%E2%80%A2+Missing+Piece",
+        text: "One piece is missing from the pattern ring. Which segment completes the ring?",
+        options: [
+          "Segment with two dots",
+          "Segment with three dots",
+          "Plain segment",
+          "Segment with a stripe"
+        ],
+        correctIndex: 3,
+        weight: 1
+      }
+    ];
+
+    const totalMarks = 20;
+
+    // State
+    let currentIndex = 0;
+    let selectedAnswers = new Array(questions.length).fill(null);
+
+    // Elements
+    const homeView = document.getElementById("homeView");
+    const quizView = document.getElementById("quizView");
+    const resultView = document.getElementById("resultView");
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const retryBtn = document.getElementById("retryBtn");
+    const questionNumber = document.getElementById("questionNumber");
+    const totalQuestions = document.getElementById("totalQuestions");
+    const totalQuestionsFooter = document.getElementById("totalQuestionsFooter");
+    const answeredCount = document.getElementById("answeredCount");
+    const questionText = document.getElementById("questionText");
+    const questionImage = document.getElementById("questionImage");
+    const answersContainer = document.getElementById("answersContainer");
+    const questionCategory = document.getElementById("questionCategory");
+    const questionDifficulty = document.getElementById("questionDifficulty");
+    const progressFill = document.getElementById("progressFill");
+    const roundTag = document.getElementById("roundTag");
+    const roundLabel = document.getElementById("roundLabel");
+    const finalScoreEl = document.getElementById("finalScore");
+    const scoreLabel = document.getElementById("scoreLabel");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultSummary = document.getElementById("resultSummary");
+    const resultTags = document.getElementById("resultTags");
+
+    totalQuestions.textContent = questions.length;
+    totalQuestionsFooter.textContent = questions.length;
+
+    function setView(view) {
+      homeView.classList.remove("active");
+      quizView.classList.remove("active");
+      resultView.classList.remove("active");
+      view.classList.add("active");
+    }
+
+    function difficultyStars(d) {
+      const total = 5;
+      return "Difficulty · " + "★".repeat(d) + "☆".repeat(total - d);
+    }
+
+    function updateRoundUI(round) {
+      if (round === 1) {
+        roundTag.textContent = "Round 1 · Visual Logic";
+        roundLabel.textContent = "Round 1 · Visual";
+      } else if (round === 2) {
+        roundTag.textContent = "Round 2 · Numbers";
+        roundLabel.textContent = "Round 2 · Numeric";
+      } else {
+        roundTag.textContent = "Round 3 · Abstract";
+        roundLabel.textContent = "Round 3 · Abstract";
+      }
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      questionNumber.textContent = currentIndex + 1;
+      questionCategory.textContent = q.category;
+      questionDifficulty.textContent = difficultyStars(q.difficulty);
+      questionText.textContent = q.text;
+      questionImage.src = q.image;
+      questionImage.alt = "IQ test question " + (currentIndex + 1);
+
+      updateRoundUI(q.round);
+
+      answersContainer.innerHTML = "";
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "answer-option";
+        if (selectedAnswers[currentIndex] === idx) {
+          btn.classList.add("selected");
+        }
+        btn.dataset.index = idx;
+
+        const labelSpan = document.createElement("span");
+        labelSpan.className = "label";
+        labelSpan.textContent = String.fromCharCode(65 + idx);
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "text";
+        textSpan.textContent = opt;
+
+        btn.appendChild(labelSpan);
+        btn.appendChild(textSpan);
+        answersContainer.appendChild(btn);
+      });
+
+      const selected = selectedAnswers[currentIndex];
+      if (selected === null) {
+        nextBtn.textContent = currentIndex === questions.length - 1 ? "Finish without answer" : "Skip & Next →";
+      } else if (currentIndex === questions.length - 1) {
+        nextBtn.textContent = "Finish test →";
+      } else {
+        nextBtn.textContent = "Next →";
+      }
+
+      const answered = selectedAnswers.filter((v) => v !== null).length;
+      answeredCount.textContent = answered;
+
+      const progress = ((currentIndex) / questions.length) * 100;
+      progressFill.style.width = progress + "%";
+    }
+
+    answersContainer.addEventListener("click", (e) => {
+      const option = e.target.closest(".answer-option");
+      if (!option) return;
+      const idx = parseInt(option.dataset.index, 10);
+      selectedAnswers[currentIndex] = idx;
+
+      document.querySelectorAll(".answer-option").forEach((btn) => {
+        btn.classList.toggle("selected", btn === option);
+      });
+
+      const answered = selectedAnswers.filter((v) => v !== null).length;
+      answeredCount.textContent = answered;
+
+      if (currentIndex === questions.length - 1) {
+        nextBtn.textContent = "Finish test →";
+      } else {
+        nextBtn.textContent = "Next →";
+      }
+    });
+
+    function calculateResult() {
+      let rawScore = 0;
+      let maxScore = 0;
+
+      questions.forEach((q, i) => {
+        maxScore += q.weight;
+        if (selectedAnswers[i] === q.correctIndex) {
+          rawScore += q.weight;
+        }
+      });
+
+      const normalized = Math.round((rawScore / maxScore) * totalMarks);
+      return {
+        rawScore,
+        maxScore,
+        normalized
+      };
+    }
+
+    function buildFeedback(scoreObj) {
+      const { rawScore, maxScore, normalized } = scoreObj;
+      finalScoreEl.textContent = normalized.toString();
+
+      let label;
+      let title;
+      let summary;
+      const tags = [];
+
+      const ratio = rawScore / maxScore;
+
+      if (ratio >= 0.85) {
+        label = "Very strong pattern awareness";
+        title = "High visual‑logical efficiency";
+        summary =
+          "Your answers suggest fast understanding of patterns and structured logic. You likely recognize visual rules quickly and keep multiple relationships in mind at once.";
+        tags.push("Strong pattern extraction", "Efficient visual reasoning", "Good working memory");
+      } else if (ratio >= 0.65) {
+        label = "Solid reasoning with growth space";
+        title = "Above‑average cognitive flow";
+        summary =
+          "You handle visual and numeric rules reliably, with room to sharpen speed and precision on harder items. More exposure to complex puzzles can push this score higher.";
+        tags.push("Reliable logic skills", "Good pattern insight", "Can train speed & depth");
+      } else if (ratio >= 0.4) {
+        label = "Developing reasoning skill";
+        title = "Emerging pattern recognition";
+        summary =
+          "You show emerging skill in spotting rules, especially on simpler items. Practising visual sequences and number patterns will raise both confidence and consistency.";
+        tags.push("Foundational logic present", "Practice boosts stability", "Try short daily puzzles");
+      } else {
+        label = "Gentle starting point";
+        title = "Beginner‑level IQ snapshot";
+        summary =
+          "This run was more like a warm‑up. Treat it as a baseline: with repeated exposure to shapes, number sequences and spatial puzzles, your performance can improve quickly.";
+        tags.push("Good baseline run", "Lots of upside", "Repetition will help");
+      }
+
+      scoreLabel.textContent = label;
+      resultTitle.textContent = title;
+      resultSummary.textContent = summary;
+
+      resultTags.innerHTML = "";
+      tags.forEach((t) => {
+        const chip = document.createElement("span");
+        chip.className = "result-chip";
+        chip.textContent = t;
+        resultTags.appendChild(chip);
+      });
+    }
+
+    startBtn.addEventListener("click", () => {
+      currentIndex = 0;
+      selectedAnswers = new Array(questions.length).fill(null);
+      setView(quizView);
+      renderQuestion();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < questions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+        if (currentIndex === questions.length - 1) {
+          progressFill.style.width = ((questions.length - 1) / questions.length) * 100 + "%";
+        }
+      } else {
+        const result = calculateResult();
+        buildFeedback(result);
+        progressFill.style.width = "100%";
+        roundLabel.textContent = "Completed";
+        setView(resultView);
+      }
+    });
+
+    retryBtn.addEventListener("click", () => {
+      currentIndex = 0;
+      selectedAnswers = new Array(questions.length).fill(null);
+      progressFill.style.width = "0%";
+      answeredCount.textContent = "0";
+      roundLabel.textContent = "Round 1 · Visual";
+      setView(quizView);
+      renderQuestion();
+    });
+  </script>
 </body>
 </html>
